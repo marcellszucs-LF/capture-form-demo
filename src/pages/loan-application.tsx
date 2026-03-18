@@ -148,13 +148,6 @@ const fundsReasonOptions = [
     { id: "other", label: "Other" },
 ];
 
-const soleTraderDurationOptions = [
-    { id: "less-than-1", label: "Less than a year" },
-    { id: "1-2", label: "1 - 2 years" },
-    { id: "2-3", label: "2 - 3 years" },
-    { id: "3-4", label: "3 - 4 years" },
-    { id: "5-plus", label: "5 or more years" },
-];
 
 const businessTradingDurationOptions = [
     { id: "under-3m", label: "Under 3 months" },
@@ -2518,8 +2511,6 @@ export const LoanApplication = () => {
     const [yearlyTurnover, setYearlyTurnover] = useState<string | null>(null);
     const [fundsReason, setFundsReason] = useState<string | null>(null);
     const [businessTradingDuration, setBusinessTradingDuration] = useState<string | null>(null);
-    const [soleTraderDuration, setSoleTraderDuration] = useState<string | null>(null);
-
     const isDark = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
     // Check if all required fields are filled and no errors (Step 1)
@@ -2529,7 +2520,6 @@ export const LoanApplication = () => {
     const isStep2Valid = firstName && lastName && phoneNumber && !phoneError && ownsHouse !== null;
 
     // Check if step 3 is valid
-    const isSoleTrader = tradingStyle === "sole-trader";
     const isStep3Valid = tradingDuration && yearlyTurnover && fundsReason && businessTradingDuration;
 
     // Get ref for a specific step
