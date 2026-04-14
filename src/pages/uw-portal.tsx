@@ -2168,7 +2168,7 @@ const LeadDetailView = ({ lead, onDecision }: { lead: Lead & { stage: LeadStage 
                                 <div className="relative flex min-h-0 flex-1 flex-col rounded-xl border border-secondary bg-primary">
                                     <iframe
                                         ref={pdfIframeRef}
-                                        src="/credit_report_placeholder.pdf"
+                                        src="/credit_report_placeholder.pdf#title=Credit%20Report"
                                         className="min-h-0 flex-1 w-full rounded-xl"
                                         style={{ colorScheme: "light" }}
                                         title="Credit Report"
@@ -2225,7 +2225,7 @@ const LeadDetailView = ({ lead, onDecision }: { lead: Lead & { stage: LeadStage 
                                     <div data-pdf-key={label} className="flex flex-col rounded-xl border border-secondary bg-primary" style={{ height: 480 }}>
                                         <div className="relative min-h-0 flex-1">
                                             <iframe
-                                                src={src}
+                                                src={`${src}#title=${encodeURIComponent(label)}`}
                                                 className="h-full w-full rounded-t-xl"
                                                 style={{ colorScheme: "light" }}
                                                 title={label}
