@@ -26,29 +26,24 @@ export const PasswordGate = ({ children }: PasswordGateProps) => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Check against environment variable
         const correctPassword = import.meta.env.VITE_DEMO_PASSWORD;
 
         if (password === correctPassword) {
             sessionStorage.setItem(STORAGE_KEY, "true");
-            setIsAuthenticated(true);
-            setError(false);
+            window.location.href = "/";
         } else {
             setError(true);
         }
     };
 
-    // Show nothing while checking authentication
     if (isChecking) {
         return null;
     }
 
-    // If authenticated, show the app
     if (isAuthenticated) {
         return <>{children}</>;
     }
 
-    // Show password gate
     return (
         <div className="flex min-h-screen w-full items-center justify-center bg-tertiary p-4">
             <div className="w-full max-w-sm">
