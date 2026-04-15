@@ -3192,6 +3192,17 @@ export const LoanApplication = () => {
                                                                     placeholder="Start typing to search"
                                                                     value={companyName}
                                                                     onChange={(e) => handleCompanyNameChange(e.target.value)}
+                                                                    onFocus={() => {
+                                                                        // Wait for the mobile keyboard to finish animating in,
+                                                                        // then scroll the input to the top of the viewport so the
+                                                                        // dropdown has the maximum space below it.
+                                                                        setTimeout(() => {
+                                                                            companyInputRef.current?.scrollIntoView({
+                                                                                behavior: "smooth",
+                                                                                block: "start",
+                                                                            });
+                                                                        }, 300);
+                                                                    }}
                                                                     onKeyDown={handleCompanyKeyDown}
                                                                     onBlur={(e) => {
                                                                         if (!companyInputRef.current?.contains(e.relatedTarget as Node)) {
