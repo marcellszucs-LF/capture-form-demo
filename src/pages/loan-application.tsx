@@ -3110,6 +3110,7 @@ export const LoanApplication = () => {
                                                     <InputSkeleton />
                                                     <InputSkeleton />
                                                     <InputSkeleton />
+                                                    <CheckboxSkeleton />
                                                 </>
                                             ) : (
                                                 <>
@@ -3322,22 +3323,15 @@ export const LoanApplication = () => {
                                                         isInvalid={emailError}
                                                     />
 
+                                                    <Checkbox
+                                                        label="Sign up for offers and news for small businesses."
+                                                        hint="We'll send a maximum of 2 emails a week"
+                                                    />
+
                                                 </>
                                             )}
                                         </div>
                                     </div>
-                                    </div>
-
-                                    {/* Newsletter checkbox - outside card */}
-                                    <div className="px-2 md:px-4 md:pt-6">
-                                        {isLoading ? (
-                                            <CheckboxSkeleton />
-                                        ) : (
-                                            <Checkbox
-                                                label="Keep me up-to-date with exclusive offers and SME news"
-                                                hint="We'll send a maximum of 2 emails a week"
-                                            />
-                                        )}
                                     </div>
 
                                     {/* Submit button - outside card */}
