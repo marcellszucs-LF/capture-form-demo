@@ -1440,7 +1440,7 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
 
                                         {manualAddressEntry ? (
                                             /* Manual address fields - 2x2 grid */
-                                            <div className="grid grid-cols-2 gap-3">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                                 <Input
                                                     placeholder="Address line 1"
                                                     value={manualAddressLine1}
