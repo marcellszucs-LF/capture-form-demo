@@ -3341,7 +3341,7 @@ export const LoanApplication = () => {
                                     </div>
 
                                     {/* Submit button - outside card */}
-                                    <div className="pt-2 md:pt-6 md:px-4 md:pb-4 flex flex-col items-center gap-3">
+                                    <div className="pt-2 md:pt-6 md:px-4 md:pb-4 flex flex-col items-center gap-6">
                                         {isLoading ? (
                                             <>
                                                 <Skeleton className="h-12 w-full rounded-lg" />
@@ -3451,7 +3451,7 @@ export const LoanApplication = () => {
                                     </div>
 
                                     {/* Navigation buttons - outside card */}
-                                    <div className="pt-2 md:pt-6 md:px-4 md:pb-4 flex flex-col items-center gap-3">
+                                    <div className="pt-2 md:pt-6 md:px-4 md:pb-4 flex flex-col items-center gap-6">
                                         <div className="flex gap-3 w-full">
                                             <button
                                                 type="button"
@@ -3552,7 +3552,7 @@ export const LoanApplication = () => {
                                     </div>
 
                                     {/* Submit button and disclaimer - outside card */}
-                                    <div className="pt-2 flex flex-col gap-2 items-center md:pt-6 md:px-4 md:pb-4">
+                                    <div className="pt-2 flex flex-col gap-6 items-center md:pt-6 md:px-4 md:pb-4">
                                         <div className="flex gap-3 w-full">
                                             <button
                                                 type="button"
