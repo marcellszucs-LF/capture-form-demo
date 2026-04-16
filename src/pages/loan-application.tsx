@@ -857,6 +857,16 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
     const [tradingAddressDropdownOpen, setTradingAddressDropdownOpen] = useState(false);
     const tradingAddressSearchTimeout = useRef<NodeJS.Timeout | null>(null);
     const tradingAddressInputRef = useRef<HTMLDivElement>(null);
+    const [manualAddressEntry, setManualAddressEntry] = useState(false);
+    const [manualAddressLine1, setManualAddressLine1] = useState("");
+    const [manualAddressLine2, setManualAddressLine2] = useState("");
+    const [manualAddressCity, setManualAddressCity] = useState("");
+    const [manualAddressPostcode, setManualAddressPostcode] = useState("");
+
+    const updateManualTradingAddress = (line1: string, line2: string, city: string, postcode: string) => {
+        const parts = [line1, line2, city, postcode].filter(Boolean);
+        setTradingAddress(parts.join(", "));
+    };
 
     const handleTradingAddressSearchChange = (value: string) => {
         setTradingAddressSearchText(value);
@@ -963,7 +973,11 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
     }, [needsMoreAddresses]);
 
     // Validation: check if all required fields are filled
-    const isDashboardStep1Valid = tradingAddress !== "" && turnover12Months !== "" && turnover2019 !== "";
+    const isDashboardStep1Valid = (
+        manualAddressEntry
+            ? (manualAddressLine1 !== "" && manualAddressCity !== "" && manualAddressPostcode !== "")
+            : tradingAddress !== ""
+    ) && turnover12Months !== "" && turnover2019 !== "";
 
     // Animate dashboard step transition (same pattern as animateToStep in LoanApplication)
     const animateToDashStep = (targetStep: number) => {
@@ -1397,54 +1411,94 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
                                 </div>
                                 {/* Card body - Trading address lookup */}
                                 <div className="p-4">
-                                    <div
-                                        ref={tradingAddressInputRef}
-                                        className="relative w-full md:w-1/2"
-                                    >
-                                        <Input
-                                            label="Trading address"
-                                            placeholder="Start typing to search"
-                                            icon={SearchMd}
-                                            value={tradingAddressSearchText || tradingAddress}
-                                            onChange={handleTradingAddressSearchChange}
-                                        />
+                                    <div className="flex flex-col gap-1.5 w-full md:w-1/2">
+                                        {/* Label row with toggle */}
+                                        <div className="flex items-center justify-between">
+                                            <label className="text-sm font-medium text-secondary">Trading address</label>
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    if (manualAddressEntry) {
+                                                        setManualAddressEntry(false);
+                                                        setManualAddressLine1("");
+                                                        setManualAddressLine2("");
+                                                        setManualAddressCity("");
+                                                        setManualAddressPostcode("");
+                                                        setTradingAddress("");
+                                                    } else {
+                                                        setManualAddressEntry(true);
+                                                        setTradingAddressSearchText("");
+                                                        setTradingAddressDropdownOpen(false);
+                                                        setTradingAddress("");
+                                                    }
+                                                }}
+                                                className="text-sm font-medium text-brand-secondary hover:text-brand-primary transition-colors"
+                                            >
+                                                {manualAddressEntry ? "Search for address" : "Enter address manually"}
+                                            </button>
+                                        </div>
 
-                                        {/* Address search dropdown */}
-                                        {tradingAddressDropdownOpen && (
-                                            <div className="absolute top-full left-0 right-0 mt-1 bg-primary border border-secondary rounded-lg shadow-lg z-10 py-1 max-h-55 overflow-y-auto">
-                                                {tradingAddressSearching ? (
-                                                    <div className="px-1.5 py-px">
-                                                        <div className="p-2 rounded-md">
-                                                            <p className="text-quaternary text-base">
-                                                                Searching for addresses..
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                ) : (
-                                                    staticAddresses.map((addr) => {
-                                                        const isSelected = tradingAddress === addr.address;
-                                                        return (
-                                                            <div
-                                                                key={addr.id}
-                                                                className="px-1.5 py-px"
-                                                            >
-                                                                <button
-                                                                    type="button"
-                                                                    onClick={() => handleTradingAddressSelect(addr)}
-                                                                    className={`w-full flex items-center gap-2 p-2 rounded-md text-left transition-colors hover:bg-active ${
-                                                                        isSelected ? "bg-active" : ""
-                                                                    }`}
-                                                                >
-                                                                    <span className="text-primary text-base flex-1">
-                                                                        {addr.address}
-                                                                    </span>
-                                                                    {isSelected && (
-                                                                        <Check className="size-5 text-fg-brand-primary shrink-0" />
-                                                                    )}
-                                                                </button>
+                                        {manualAddressEntry ? (
+                                            /* Manual address fields */
+                                            <div className="flex flex-col gap-3">
+                                                <Input
+                                                    placeholder="Address line 1"
+                                                    value={manualAddressLine1}
+                                                    onChange={(v) => { setManualAddressLine1(v); updateManualTradingAddress(v, manualAddressLine2, manualAddressCity, manualAddressPostcode); }}
+                                                />
+                                                <Input
+                                                    placeholder="Address line 2 (optional)"
+                                                    value={manualAddressLine2}
+                                                    onChange={(v) => { setManualAddressLine2(v); updateManualTradingAddress(manualAddressLine1, v, manualAddressCity, manualAddressPostcode); }}
+                                                />
+                                                <Input
+                                                    placeholder="Town / City"
+                                                    value={manualAddressCity}
+                                                    onChange={(v) => { setManualAddressCity(v); updateManualTradingAddress(manualAddressLine1, manualAddressLine2, v, manualAddressPostcode); }}
+                                                />
+                                                <Input
+                                                    placeholder="Postcode"
+                                                    value={manualAddressPostcode}
+                                                    onChange={(v) => { setManualAddressPostcode(v); updateManualTradingAddress(manualAddressLine1, manualAddressLine2, manualAddressCity, v); }}
+                                                />
+                                            </div>
+                                        ) : (
+                                            /* Address search combobox */
+                                            <div ref={tradingAddressInputRef} className="relative w-full">
+                                                <Input
+                                                    placeholder="Start typing to search"
+                                                    icon={SearchMd}
+                                                    value={tradingAddressSearchText || tradingAddress}
+                                                    onChange={handleTradingAddressSearchChange}
+                                                />
+                                                {tradingAddressDropdownOpen && (
+                                                    <div className="absolute top-full left-0 right-0 mt-1 bg-primary border border-secondary rounded-lg shadow-lg z-10 py-1 max-h-55 overflow-y-auto">
+                                                        {tradingAddressSearching ? (
+                                                            <div className="px-1.5 py-px">
+                                                                <div className="p-2 rounded-md">
+                                                                    <p className="text-quaternary text-base">
+                                                                        Searching for addresses..
+                                                                    </p>
+                                                                </div>
                                                             </div>
-                                                        );
-                                                    })
+                                                        ) : (
+                                                            staticAddresses.map((addr) => {
+                                                                const isSelected = tradingAddress === addr.address;
+                                                                return (
+                                                                    <div key={addr.id} className="px-1.5 py-px">
+                                                                        <button
+                                                                            type="button"
+                                                                            onClick={() => handleTradingAddressSelect(addr)}
+                                                                            className={`w-full flex items-center gap-2 p-2 rounded-md text-left transition-colors hover:bg-active ${isSelected ? "bg-active" : ""}`}
+                                                                        >
+                                                                            <span className="text-primary text-base flex-1">{addr.address}</span>
+                                                                            {isSelected && <Check className="size-5 text-fg-brand-primary shrink-0" />}
+                                                                        </button>
+                                                                    </div>
+                                                                );
+                                                            })
+                                                        )}
+                                                    </div>
                                                 )}
                                             </div>
                                         )}
