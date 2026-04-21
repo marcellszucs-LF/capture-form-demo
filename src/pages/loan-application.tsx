@@ -1,6 +1,6 @@
 import { ChangeEvent, Fragment, useEffect, useRef, useState } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import { AlertCircle, AnnotationQuestion, ArrowLeft, ArrowRight, AtSign, BookOpen01, Building06, Check, CheckCircle, CheckSquareBroken, ChevronSelectorVertical, CreditCardRefresh, Dice1, Dice2, Dice3, Dice4, Disc01, FileCheck02, FileHeart02, Flag05, HelpCircle, Hourglass01, InfoCircle, Loading01, Mail05, Menu02, MoonStar, Placeholder, Plus, QrCode02, SearchMd, Settings01, Share05, Sun, UploadCloud02, User01, Users01, XClose, ZapFast } from "@untitledui/icons";
+import { AlertCircle, AnnotationQuestion, ArrowLeft, ArrowRight, AtSign, BookOpen01, Building06, Check, CheckCircle, CheckSquareBroken, ChevronSelectorVertical, CreditCardRefresh, Dice1, Dice2, Dice3, Dice4, Disc01, FileCheck02, FileHeart02, Flag05, HelpCircle, Hourglass01, InfoCircle, Loading01, Mail01, Mail05, Menu02, MoonStar, Placeholder, Plus, QrCode02, SearchMd, Settings01, Share05, Sun, UploadCloud02, User01, Users01, XClose, ZapFast } from "@untitledui/icons";
 import { motion } from "motion/react";
 import type { DateValue } from "react-aria-components";
 import { DateField } from "@/components/application/date-picker/date-field";
@@ -1908,10 +1908,16 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
                                             </div>
                                         </div>
                                         {/* Request info button */}
-                                        <div className="flex justify-center -mt-2">
+                                        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4 -mt-2 pb-6 md:pb-0">
+                                            <Checkbox
+                                                label={`${director.name} has granted me permission to give this data`}
+                                                className="px-4 md:px-0 md:max-w-[300px] md:pl-4"
+                                            />
                                             <Button
-                                                color="tertiary"
+                                                color="secondary"
                                                 size="sm"
+                                                iconLeading={Mail01}
+                                                className="shrink-0 self-center md:self-auto"
                                                 onClick={() => {
                                                     const subject = encodeURIComponent("Request of Address History for a loan with Lovey");
                                                     const body = encodeURIComponent("Adipisicing duis fugiat ipsum consectetur officia ea anim pariatur in velit. Labore consectetur Lorem ad occaecat reprehenderit qui occaecat non aliquip sit minim id ad. Adipisicing cillum est ullamco elit laboris dolore aute pariatur adipisicing ea ullamco pariatur.");
@@ -3407,6 +3413,10 @@ export const LoanApplication = () => {
                                                 >
                                                     Get Started
                                                 </Button>
+                                                <p className="text-xs text-tertiary text-center -mt-4">
+                                                    <span className="hidden md:inline">By clicking Get Started, you agree to Lovey's <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-secondary">Terms &amp; Conditions</a> and <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-secondary">Privacy Policy</a>. Your data will be used to provide you with a personalised loan quote.</span>
+                                                    <span className="md:hidden">By tapping Get Started, you agree to Lovey's <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-secondary">Terms &amp; Conditions</a> and <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-secondary">Privacy Policy</a>. Your data will be used to provide you with a personalised loan quote.</span>
+                                                </p>
                                                 <BadgeWithIcon type="pill-color" color="brand" iconLeading={InfoCircle} className="md:hidden">
                                                     Getting a quote will not affect your credit score
                                                 </BadgeWithIcon>
