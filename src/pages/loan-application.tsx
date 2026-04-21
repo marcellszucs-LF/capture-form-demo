@@ -2578,10 +2578,10 @@ export const LoanApplication = () => {
     const isStep1Valid = borrowAmount && !borrowAmountError && tradingStyle && companyName && email && !emailError && (!manualCompanyEntry || companyNumber);
 
     // Check if step 2 is valid
-    const isStep2Valid = firstName && lastName && phoneNumber && !phoneError && ownsHouse !== null;
+    const isStep2Valid = yearlyTurnover && businessTradingDuration;
 
     // Check if step 3 is valid
-    const isStep3Valid = tradingDuration && yearlyTurnover && fundsReason && businessTradingDuration;
+    const isStep3Valid = firstName && lastName && phoneNumber && !phoneError && ownsHouse !== null;
 
     // Get ref for a specific step
     const getStepRef = (step: number) => {
@@ -3426,9 +3426,86 @@ export const LoanApplication = () => {
                                 </div>
                             )}
 
-                            {/* Step 2: About You */}
+                            {/* Step 2: About Your Company */}
                             {displayedStep === 2 && (
                                 <div ref={step2Ref} className="flex flex-col gap-4 px-2 pt-2 pb-6 md:gap-0 md:px-0 md:pt-0 md:pb-0">
+                                    <div className="bg-primary_alt rounded-xl border border-secondary md:bg-transparent md:rounded-none md:border-0">
+                                    {/* Card Header */}
+                                    <div className="flex items-center gap-1 px-3 md:px-4 py-3 border-b border-secondary">
+                                        <div className="flex flex-1 items-center gap-3">
+                                            <div className="size-8 rounded-full bg-brand-secondary flex items-center justify-center shrink-0">
+                                                <Building06 className="size-4 text-fg-brand-primary" />
+                                            </div>
+                                            <h2 className="flex-1 text-md md:text-lg font-semibold text-secondary">About your company</h2>
+                                        </div>
+                                        <Tooltip title="This is a tooltip" description="Tooltips are used to describe or identify an element. In most scenarios, tooltips help the user understand meaning, function or alt-text." arrow placement="top right">
+                                            <TooltipTrigger className="size-8 rounded-full flex items-center justify-center">
+                                                <HelpCircle className="size-4 text-fg-quaternary" />
+                                            </TooltipTrigger>
+                                        </Tooltip>
+                                    </div>
+
+                                    {/* Card Body */}
+                                    <div className="p-4 md:pb-0">
+                                        <div className="flex flex-col gap-5 w-full">
+                                            {/* Business trading duration */}
+                                            <Select
+                                                label={companyName.trim() ? `How long have you been trading under ${companyName.trim()}?` : "How long have you been trading under your business name?"}
+                                                placeholder="Select an option"
+                                                items={businessTradingDurationOptions}
+                                                selectedKey={businessTradingDuration}
+                                                onSelectionChange={(key) => setBusinessTradingDuration(key as string)}
+                                            >
+                                                {(item) => <Select.Item id={item.id} key={item.id}>{item.label}</Select.Item>}
+                                            </Select>
+
+                                            {/* Yearly turnover select */}
+                                            <Select
+                                                label="What was your turnover over the last 12 months?"
+                                                placeholder="Select an option"
+                                                items={yearlyTurnoverOptions}
+                                                selectedKey={yearlyTurnover}
+                                                onSelectionChange={(key) => setYearlyTurnover(key as string)}
+                                                hint="This helps us get an idea of affordability."
+                                            >
+                                                {(item) => <Select.Item id={item.id} key={item.id}>{item.label}</Select.Item>}
+                                            </Select>
+
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                    {/* Navigation buttons - outside card */}
+                                    <div className="pt-2 md:pt-6 md:px-4 md:pb-4 flex flex-col items-center gap-6">
+                                        <div className="flex gap-3 w-full">
+                                            <button
+                                                type="button"
+                                                onClick={handlePrevStep}
+                                                className="p-3 bg-primary border border-disabled_subtle rounded-lg shadow-xs hover:bg-primary_hover transition-colors"
+                                            >
+                                                <ArrowLeft className="size-5 text-fg-secondary" />
+                                            </button>
+                                            <Button
+                                                color="primary"
+                                                size="lg"
+                                                iconTrailing={ArrowRight}
+                                                isDisabled={!isStep2Valid}
+                                                className="flex-1"
+                                                onClick={handleNextStep}
+                                            >
+                                                Continue
+                                            </Button>
+                                        </div>
+                                        <BadgeWithIcon type="pill-color" color="brand" iconLeading={InfoCircle} className="md:hidden">
+                                            Getting a quote will not affect your credit score
+                                        </BadgeWithIcon>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Step 3: About You */}
+                            {displayedStep === 3 && (
+                                <div ref={step3Ref} className="flex flex-col gap-4 px-2 pt-2 pb-6 md:gap-0 md:px-0 md:pt-0 md:pb-0">
                                     <div className="bg-primary_alt rounded-xl border border-secondary md:bg-transparent md:rounded-none md:border-0">
                                     {/* Card Header */}
                                     <div className="flex items-center gap-1 px-3 md:px-4 py-3 border-b border-secondary">
@@ -3504,107 +3581,6 @@ export const LoanApplication = () => {
                                                     This just helps us understand your circumstances better. Our loans are unsecured and not secured against your property.
                                                 </p>
                                             </div>
-                                        </div>
-                                    </div>
-                                    </div>
-
-                                    {/* Navigation buttons - outside card */}
-                                    <div className="pt-2 md:pt-6 md:px-4 md:pb-4 flex flex-col items-center gap-6">
-                                        <div className="flex gap-3 w-full">
-                                            <button
-                                                type="button"
-                                                onClick={handlePrevStep}
-                                                className="p-3 bg-primary border border-disabled_subtle rounded-lg shadow-xs hover:bg-primary_hover transition-colors"
-                                            >
-                                                <ArrowLeft className="size-5 text-fg-secondary" />
-                                            </button>
-                                            <Button
-                                                color="primary"
-                                                size="lg"
-                                                iconTrailing={ArrowRight}
-                                                isDisabled={!isStep2Valid}
-                                                className="flex-1"
-                                                onClick={handleNextStep}
-                                            >
-                                                Continue
-                                            </Button>
-                                        </div>
-                                        <BadgeWithIcon type="pill-color" color="brand" iconLeading={InfoCircle} className="md:hidden">
-                                            Getting a quote will not affect your credit score
-                                        </BadgeWithIcon>
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Step 3: About Your Company */}
-                            {displayedStep === 3 && (
-                                <div ref={step3Ref} className="flex flex-col gap-4 px-2 pt-2 pb-6 md:gap-0 md:px-0 md:pt-0 md:pb-0">
-                                    <div className="bg-primary_alt rounded-xl border border-secondary md:bg-transparent md:rounded-none md:border-0">
-                                    {/* Card Header */}
-                                    <div className="flex items-center gap-1 px-3 md:px-4 py-3 border-b border-secondary">
-                                        <div className="flex flex-1 items-center gap-3">
-                                            <div className="size-8 rounded-full bg-brand-secondary flex items-center justify-center shrink-0">
-                                                <Building06 className="size-4 text-fg-brand-primary" />
-                                            </div>
-                                            <h2 className="flex-1 text-md md:text-lg font-semibold text-secondary">About your company</h2>
-                                        </div>
-                                        <Tooltip title="This is a tooltip" description="Tooltips are used to describe or identify an element. In most scenarios, tooltips help the user understand meaning, function or alt-text." arrow placement="top right">
-                                            <TooltipTrigger className="size-8 rounded-full flex items-center justify-center">
-                                                <HelpCircle className="size-4 text-fg-quaternary" />
-                                            </TooltipTrigger>
-                                        </Tooltip>
-                                    </div>
-
-                                    {/* Card Body */}
-                                    <div className="p-4 md:pb-0">
-                                        <div className="flex flex-col gap-5 w-full">
-                                            {/* Business trading duration */}
-                                            <Select
-                                                label={companyName.trim() ? `How long have you been trading under ${companyName.trim()}?` : "How long have you been trading under your business name?"}
-                                                placeholder="Select an option"
-                                                items={businessTradingDurationOptions}
-                                                selectedKey={businessTradingDuration}
-                                                onSelectionChange={(key) => setBusinessTradingDuration(key as string)}
-                                            >
-                                                {(item) => <Select.Item id={item.id} key={item.id}>{item.label}</Select.Item>}
-                                            </Select>
-
-                                            {/* Loan term select */}
-                                            <Select
-                                                label="What loan term works best for you?"
-                                                placeholder="Select an option"
-                                                items={tradingDurationOptions}
-                                                selectedKey={tradingDuration}
-                                                onSelectionChange={(key) => setTradingDuration(key as string)}
-                                                hint="This will help us work out your payments"
-                                            >
-                                                {(item) => <Select.Item id={item.id} key={item.id}>{item.label}</Select.Item>}
-                                            </Select>
-
-                                            {/* Yearly turnover select */}
-                                            <Select
-                                                label="What was your turnover over the last 12 months?"
-                                                placeholder="Select an option"
-                                                items={yearlyTurnoverOptions}
-                                                selectedKey={yearlyTurnover}
-                                                onSelectionChange={(key) => setYearlyTurnover(key as string)}
-                                                hint="This helps us get an idea of affordability."
-                                            >
-                                                {(item) => <Select.Item id={item.id} key={item.id}>{item.label}</Select.Item>}
-                                            </Select>
-
-                                            {/* Funds reason select */}
-                                            <Select
-                                                label="What do you need the funds for?"
-                                                placeholder="Select an option"
-                                                items={fundsReasonOptions}
-                                                selectedKey={fundsReason}
-                                                onSelectionChange={(key) => setFundsReason(key as string)}
-                                                hint="We'll use this to find the most suitable lender."
-                                            >
-                                                {(item) => <Select.Item id={item.id} key={item.id}>{item.label}</Select.Item>}
-                                            </Select>
-
                                         </div>
                                     </div>
                                     </div>
