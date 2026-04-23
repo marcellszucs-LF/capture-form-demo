@@ -3132,11 +3132,6 @@ export const LoanApplication = () => {
                                                     </div>
                                                     <h2 className="flex-1 text-md md:text-lg font-semibold text-secondary">Let's get started!</h2>
                                                 </div>
-                                                <Tooltip title="This is a tooltip" description="Tooltips are used to describe or identify an element. In most scenarios, tooltips help the user understand meaning, function or alt-text." arrow placement="top right">
-                                                    <TooltipTrigger className="size-8 rounded-full flex items-center justify-center">
-                                                        <HelpCircle className="size-4 text-fg-quaternary" />
-                                                    </TooltipTrigger>
-                                                </Tooltip>
                                             </>
                                         )}
                                     </div>
@@ -3418,11 +3413,6 @@ export const LoanApplication = () => {
                                             </div>
                                             <h2 className="flex-1 text-md md:text-lg font-semibold text-secondary">Tell us about your business</h2>
                                         </div>
-                                        <Tooltip title="This is a tooltip" description="Tooltips are used to describe or identify an element. In most scenarios, tooltips help the user understand meaning, function or alt-text." arrow placement="top right">
-                                            <TooltipTrigger className="size-8 rounded-full flex items-center justify-center">
-                                                <HelpCircle className="size-4 text-fg-quaternary" />
-                                            </TooltipTrigger>
-                                        </Tooltip>
                                     </div>
 
                                     {/* Card Body */}
@@ -3496,11 +3486,6 @@ export const LoanApplication = () => {
                                             </div>
                                             <h2 className="flex-1 text-md md:text-lg font-semibold text-secondary">Just a few details about you</h2>
                                         </div>
-                                        <Tooltip title="This is a tooltip" description="Tooltips are used to describe or identify an element. In most scenarios, tooltips help the user understand meaning, function or alt-text." arrow placement="top right">
-                                            <TooltipTrigger className="size-8 rounded-full flex items-center justify-center">
-                                                <HelpCircle className="size-4 text-fg-quaternary" />
-                                            </TooltipTrigger>
-                                        </Tooltip>
                                     </div>
 
                                     {/* Card Body */}
