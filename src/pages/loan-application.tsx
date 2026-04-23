@@ -3003,13 +3003,13 @@ export const LoanApplication = () => {
                 <div className="flex flex-col flex-1 gap-6 lg:gap-8 justify-center pb-18">
                     {/* Headline */}
                     <h1 className="text-white md:text-2xl lg:text-3xl font-medium leading-tight">
-                        Who says business loans need to be awkward?
+                        Business funding without the faff
                     </h1>
 
                     {/* Features list */}
                     <div className="flex flex-col gap-2 lg:gap-3 w-full">
                         <FeatureItem size="sm">Enquiry doesn't affect credit</FeatureItem>
-                        <FeatureItem size="sm">Apply in 2 minutes</FeatureItem>
+                        <FeatureItem size="sm">Enquire in under 2 minutes</FeatureItem>
                         <FeatureItem size="sm">Funds in as little as 4 hours</FeatureItem>
                         <FeatureItem size="sm">Unsecured loans up to £750,000</FeatureItem>
                     </div>
@@ -3078,7 +3078,7 @@ export const LoanApplication = () => {
                                     }}
                                 >
                                     Great news!<br />
-                                    You're eligible for a loan
+                                    Your enquiry looks strong.
                                 </h1>
                             </div>
                         )}
@@ -3175,7 +3175,7 @@ export const LoanApplication = () => {
                                                             />
                                                         </div>
                                                         <p className={borrowAmountError ? "text-error-primary text-sm" : "text-tertiary text-sm"}>
-                                                            {borrowAmountError ? "Please enter an amount between £1,000 and £750,000" : "Between £1k and £750k"}
+                                                            {borrowAmountError ? "Please enter an amount between £1,000 and £750,000" : "Between £1k and £750k. Estimate is fine - you can adjust this later."}
                                                         </p>
                                                     </div>
 
@@ -3364,7 +3364,7 @@ export const LoanApplication = () => {
                                                     />
 
                                                     <Checkbox
-                                                        label="Sign up for offers and news for small businesses."
+                                                        label="Keep me up-to-date with exclusive offers and SME news"
                                                         hint="We'll send a maximum of 2 emails a week"
                                                     />
 
@@ -3416,7 +3416,7 @@ export const LoanApplication = () => {
                                             <div className="size-8 rounded-full bg-brand-secondary flex items-center justify-center shrink-0">
                                                 <Building06 className="size-4 text-fg-brand-primary" />
                                             </div>
-                                            <h2 className="flex-1 text-md md:text-lg font-semibold text-secondary">About your company</h2>
+                                            <h2 className="flex-1 text-md md:text-lg font-semibold text-secondary">Tell us about your business</h2>
                                         </div>
                                         <Tooltip title="This is a tooltip" description="Tooltips are used to describe or identify an element. In most scenarios, tooltips help the user understand meaning, function or alt-text." arrow placement="top right">
                                             <TooltipTrigger className="size-8 rounded-full flex items-center justify-center">
@@ -3435,6 +3435,7 @@ export const LoanApplication = () => {
                                                 items={businessTradingDurationOptions}
                                                 selectedKey={businessTradingDuration}
                                                 onSelectionChange={(key) => setBusinessTradingDuration(key as string)}
+                                                hint="We'll use this to find the most suitable lender."
                                             >
                                                 {(item) => <Select.Item id={item.id} key={item.id}>{item.label}</Select.Item>}
                                             </Select>
@@ -3446,7 +3447,7 @@ export const LoanApplication = () => {
                                                 items={yearlyTurnoverOptions}
                                                 selectedKey={yearlyTurnover}
                                                 onSelectionChange={(key) => setYearlyTurnover(key as string)}
-                                                hint="This helps us get an idea of affordability."
+                                                hint="Rough range is fine - no exact figures needed"
                                             >
                                                 {(item) => <Select.Item id={item.id} key={item.id}>{item.label}</Select.Item>}
                                             </Select>
@@ -3473,7 +3474,7 @@ export const LoanApplication = () => {
                                                 className="flex-1"
                                                 onClick={handleNextStep}
                                             >
-                                                Continue
+                                                Nearly There
                                             </Button>
                                         </div>
                                         <BadgeWithIcon type="pill-color" color="brand" iconLeading={InfoCircle} className="md:hidden">
@@ -3493,7 +3494,7 @@ export const LoanApplication = () => {
                                             <div className="size-8 rounded-full bg-brand-secondary flex items-center justify-center shrink-0">
                                                 <User01 className="size-4 text-fg-brand-primary" />
                                             </div>
-                                            <h2 className="flex-1 text-md md:text-lg font-semibold text-secondary">About You</h2>
+                                            <h2 className="flex-1 text-md md:text-lg font-semibold text-secondary">Just a few details about you</h2>
                                         </div>
                                         <Tooltip title="This is a tooltip" description="Tooltips are used to describe or identify an element. In most scenarios, tooltips help the user understand meaning, function or alt-text." arrow placement="top right">
                                             <TooltipTrigger className="size-8 rounded-full flex items-center justify-center">
@@ -3544,7 +3545,7 @@ export const LoanApplication = () => {
                                                     />
                                                 </div>
                                                 <p className={phoneError ? "text-error-primary text-sm" : "text-tertiary text-sm"}>
-                                                    {phoneError ? "Please enter a UK phone number" : "We'll only call you regarding your loan application"}
+                                                    {phoneError ? "Please enter a UK phone number" : "We'll only call about your application. No sales spam."}
                                                 </p>
                                             </div>
 
@@ -3558,7 +3559,7 @@ export const LoanApplication = () => {
                                                     <button type="button" onClick={() => setOwnsHouse(false)} className={`flex-1 flex items-center justify-center px-4 py-2 text-md transition-colors ${ownsHouse === false ? "bg-quaternary font-medium text-secondary_hover" : "bg-primary text-secondary"}`}>No</button>
                                                 </div>
                                                 <p className="text-tertiary text-sm">
-                                                    This just helps us understand your circumstances better. Our loans are unsecured and not secured against your property.
+                                                    Don't worry - We just need this to find your best match. Our loans are unsecured and not secured against your property.
                                                 </p>
                                             </div>
                                         </div>
@@ -3583,7 +3584,7 @@ export const LoanApplication = () => {
                                                 className="flex-1"
                                                 onClick={handleNextStep}
                                             >
-                                                See if I'm eligible
+                                                Get My Results
                                             </Button>
                                         </div>
                                         <BadgeWithIcon type="pill-color" color="brand" iconLeading={InfoCircle} className="md:hidden">
@@ -3601,10 +3602,10 @@ export const LoanApplication = () => {
                                         {/* What happens now */}
                                         <div className="flex flex-col gap-2">
                                             <h3 className="text-primary font-semibold text-base">
-                                                What happens now?
+                                                Your enquiry is in. Here's what's next.
                                             </h3>
                                             <p className="text-tertiary text-base">
-                                                You are eligible to borrow! We'll ask for some company and financial details to match you with the best lenders and see what we can do for you.
+                                                We'll gather a few more details to match you with the right lenders and see what's available for your business.
                                             </p>
                                         </div>
 
@@ -3612,7 +3613,7 @@ export const LoanApplication = () => {
                                         <div className="flex flex-col gap-4">
                                             <div className="flex flex-col gap-2">
                                                 <h3 className="text-primary font-semibold text-base">
-                                                    Add more details to speed up the process
+                                                    A few more details to get you there faster
                                                 </h3>
                                                 <p className="text-tertiary text-base">
                                                     We'll ask about:
@@ -3624,7 +3625,7 @@ export const LoanApplication = () => {
                                                 <div className="flex gap-3 items-start">
                                                     <CheckCircle className="size-6 text-fg-brand-primary shrink-0" />
                                                     <p className="text-tertiary text-base">
-                                                        All directors' details
+                                                        Director's details
                                                     </p>
                                                 </div>
                                                 <div className="flex gap-3 items-start">
@@ -3636,13 +3637,13 @@ export const LoanApplication = () => {
                                                 <div className="flex gap-3 items-start">
                                                     <CheckCircle className="size-6 text-fg-brand-primary shrink-0" />
                                                     <p className="text-tertiary text-base">
-                                                        Loan Term and reason
+                                                        Loan term and purpose
                                                     </p>
                                                 </div>
                                             </div>
 
                                             <p className="text-tertiary text-base">
-                                                Most of applicants complete this stage in under 15 minutes.
+                                                The sooner you complete this, the faster you can access funding
                                             </p>
                                         </div>
                                     </div>
@@ -3658,6 +3659,7 @@ export const LoanApplication = () => {
                                         >
                                             Add more details
                                         </Button>
+                                        <p className="text-tertiary text-base text-center -mt-4">Most businesses complete this in under 15 mins</p>
                                         <BadgeWithIcon type="pill-color" color="brand" iconLeading={InfoCircle} className="md:hidden">
                                             Creating an account will not affect your credit score
                                         </BadgeWithIcon>
