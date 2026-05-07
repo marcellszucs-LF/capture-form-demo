@@ -667,6 +667,8 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
     const [legalSettleDebt, setLegalSettleDebt] = useState<boolean | null>(null);
     const [legalOutsideUK, setLegalOutsideUK] = useState<boolean | null>(null);
     const [legalChangeTradingActivity, setLegalChangeTradingActivity] = useState<boolean | null>(null);
+    const [loanTerm, setLoanTerm] = useState<string>("");
+    const [loanReason, setLoanReason] = useState<string>("");
     const isDashboardStep2Valid =
         legalBuyLand !== null && legalOtherCompany !== null && legalSettleDebt !== null &&
         legalOutsideUK !== null && legalChangeTradingActivity !== null;
@@ -813,6 +815,8 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
     // Step 4 state - finances
     const [turnover12Months, setTurnover12Months] = useState("");
     const [turnover2019, setTurnover2019] = useState("");
+    const [newDebt, setNewDebt] = useState("");
+    const [profitLoss, setProfitLoss] = useState("");
     const [vatRegistered, setVatRegistered] = useState(false);
 
     const turnoverNumeric = parseFloat(turnover12Months.replace(/,/g, "")) || 0;
@@ -958,7 +962,7 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
         manualAddressEntry
             ? (manualAddressLine1 !== "" && manualAddressCity !== "" && manualAddressPostcode !== "")
             : tradingAddress !== ""
-    ) && turnover12Months !== "" && turnover2019 !== "";
+    ) && turnover12Months !== "" && turnover2019 !== "" && newDebt !== "" && profitLoss !== "" && loanTerm !== "" && loanReason !== "";
 
     // Animate dashboard step transition (same pattern as animateToStep in LoanApplication)
     const animateToDashStep = (targetStep: number) => {
@@ -1374,6 +1378,60 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
                             {displayedDashStep === 1 && (
                             <div ref={step1ContentRef} className="flex flex-col gap-4 md:gap-6 px-2 md:px-0 pt-4 pb-6 md:pt-6 md:pb-0 bg-secondary md:bg-transparent">
 
+                            {/* Card: Tell us about your perfect loan */}
+                            <div className="bg-primary_alt border border-secondary rounded-xl shadow-xs overflow-hidden md:shadow-none">
+                                {/* Card header */}
+                                <div className="flex items-center justify-between pl-4 pr-3 py-3 border-b border-secondary">
+                                    <div className="flex items-center gap-3">
+                                        <div className="size-8 rounded-full bg-brand-secondary flex items-center justify-center shrink-0">
+                                            <Hourglass01 className="size-4 text-fg-brand-primary" />
+                                        </div>
+                                        <span className="text-md font-semibold text-secondary">Tell us about your perfect loan</span>
+                                    </div>
+                                </div>
+                                {/* Card body */}
+                                <div className="p-4">
+                                    <div className="flex flex-col md:flex-row gap-3">
+                                        <div className="flex-1 flex flex-col gap-1.5">
+                                            <label className="text-secondary font-medium text-sm">What loan term works best for you?</label>
+                                            <Select
+                                                placeholder="Select a term"
+                                                items={[
+                                                    { id: "12", label: "12 months" },
+                                                    { id: "24", label: "24 months" },
+                                                    { id: "36", label: "36 months" },
+                                                    { id: "48", label: "48 months" },
+                                                    { id: "60", label: "60 months" },
+                                                ]}
+                                                selectedKey={loanTerm}
+                                                onSelectionChange={(key) => setLoanTerm(key as string)}
+                                            >
+                                                {(item) => <Select.Item id={item.id} key={item.id}>{item.label}</Select.Item>}
+                                            </Select>
+                                        </div>
+                                        <div className="flex-1 flex flex-col gap-1.5">
+                                            <label className="text-secondary font-medium text-sm">What is the reason you need a loan?</label>
+                                            <Select
+                                                placeholder="Select a reason"
+                                                items={[
+                                                    { id: "equipment-assets", label: "Equipment or assets" },
+                                                    { id: "new-products", label: "New products" },
+                                                    { id: "refinancing", label: "Refinancing existing debt" },
+                                                    { id: "payroll", label: "Payroll" },
+                                                    { id: "working-capital", label: "Working Capital" },
+                                                    { id: "tax-payment", label: "Tax Payment" },
+                                                    { id: "other", label: "Other" },
+                                                ]}
+                                                selectedKey={loanReason}
+                                                onSelectionChange={(key) => setLoanReason(key as string)}
+                                            >
+                                                {(item) => <Select.Item id={item.id} key={item.id}>{item.label}</Select.Item>}
+                                            </Select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             {/* Card: What address is this company trading from */}
                             <div className="bg-primary_alt border border-secondary rounded-xl shadow-xs md:shadow-none">
                                 {/* Card header */}
@@ -1487,7 +1545,7 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
                                 </div>
                             </div>
 
-                            {/* Card: Tell us about your turnover */}
+                            {/* Card: Tell us a bit about your finances */}
                             <div className="bg-primary_alt border border-secondary rounded-xl shadow-xs overflow-hidden md:shadow-none">
                                 {/* Card header */}
                                 <div className="flex items-center justify-between pl-4 pr-3 py-3 border-b border-secondary">
@@ -1495,7 +1553,7 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
                                         <div className="size-8 rounded-full bg-brand-secondary flex items-center justify-center shrink-0">
                                             <CreditCardRefresh className="size-4 text-fg-brand-primary" />
                                         </div>
-                                        <span className="text-md font-semibold text-secondary">Tell us about your turnover</span>
+                                        <span className="text-md font-semibold text-secondary">Tell us a bit about your finances</span>
                                     </div>
                                     <Tooltip title="Why do we ask?" description="Your turnover helps lenders understand your business and offer you the right deal. It's only shared with lenders relevant to your application." arrow placement="top right">
                                         <TooltipTrigger className="size-8 flex items-center justify-center">
@@ -1504,13 +1562,11 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
                                     </Tooltip>
                                 </div>
                                 {/* Card body */}
-                                <div className="p-4">
+                                <div className="p-4 flex flex-col gap-4">
+                                    {/* Row 1: Turnover 12 months + VAT checkbox */}
                                     <div className="flex flex-col md:flex-row gap-3 md:items-start">
-                                        {/* Turnover input with £ prefix */}
                                         <div className="flex flex-col gap-1.5 flex-1">
-                                            <label className="text-secondary font-medium text-sm">
-                                                Your turnover for the past 12 months
-                                            </label>
+                                            <label className="text-secondary font-medium text-sm">Your turnover for the past 12 months</label>
                                             <div className="flex w-full h-11 rounded-lg bg-primary shadow-xs ring-1 ring-inset ring-primary focus-within:ring-2 focus-within:ring-brand overflow-hidden">
                                                 <div className="flex items-center pl-3.5 shrink-0">
                                                     <span className="text-placeholder text-md">£</span>
@@ -1527,10 +1583,9 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
                                             </div>
                                             <p className="text-tertiary text-sm">Feel free to round to the nearest £1000</p>
                                         </div>
-                                        {/* VAT checkbox */}
-                                        <div className="md:pl-2 md:pt-6 md:w-[458px]">
+                                        <div className="flex-1 md:pt-7">
                                             <Checkbox
-                                                size="md"
+                                                size="sm"
                                                 isSelected={vatAutoTicked || vatRegistered}
                                                 onChange={setVatRegistered}
                                                 isDisabled={vatAutoTicked}
@@ -1539,46 +1594,65 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
                                             />
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            {/* Card: Tell us about your turnover (second entry) */}
-                            <div className="bg-primary_alt border border-secondary rounded-xl shadow-xs overflow-hidden md:shadow-none">
-                                {/* Card header */}
-                                <div className="flex items-center justify-between pl-4 pr-3 py-3 border-b border-secondary">
-                                    <div className="flex items-center gap-3">
-                                        <div className="size-8 rounded-full bg-brand-secondary flex items-center justify-center shrink-0">
-                                            <CreditCardRefresh className="size-4 text-fg-brand-primary" />
-                                        </div>
-                                        <span className="text-md font-semibold text-secondary">How about your turnover in 2019?</span>
-                                    </div>
-                                    <Tooltip title="This is a tooltip" description="Tooltips are used to describe or identify an element. In most scenarios, tooltips help the user understand meaning, function or alt-text." arrow placement="top right">
-                                        <TooltipTrigger className="size-8 flex items-center justify-center">
-                                            <HelpCircle className="size-4 text-fg-senary" />
-                                        </TooltipTrigger>
-                                    </Tooltip>
-                                </div>
-                                {/* Card body */}
-                                <div className="p-4">
-                                    <div className="flex flex-col gap-1.5 md:w-[458px]">
-                                        <label className="text-secondary font-medium text-sm">
-                                            Your turnover in 2019
-                                        </label>
-                                        <div className="flex w-full h-11 rounded-lg bg-primary shadow-xs ring-1 ring-inset ring-primary focus-within:ring-2 focus-within:ring-brand overflow-hidden">
-                                            <div className="flex items-center pl-3.5 shrink-0">
-                                                <span className="text-placeholder text-md">£</span>
+                                    {/* Row 2: Turnover 2019 + New debt side by side */}
+                                    <div className="flex flex-col md:flex-row gap-3">
+                                        <div className="flex flex-col gap-1.5 flex-1">
+                                            <label className="text-secondary font-medium text-sm">Your turnover in 2019</label>
+                                            <div className="flex w-full h-11 rounded-lg bg-primary shadow-xs ring-1 ring-inset ring-primary focus-within:ring-2 focus-within:ring-brand overflow-hidden">
+                                                <div className="flex items-center pl-3.5 shrink-0">
+                                                    <span className="text-placeholder text-md">£</span>
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    inputMode="numeric"
+                                                    pattern="[0-9,]*"
+                                                    placeholder="100,000"
+                                                    value={turnover2019}
+                                                    onChange={(e) => setTurnover2019(e.target.value)}
+                                                    className="flex-1 bg-transparent text-md text-primary pl-0.5 pr-3.5 outline-none placeholder:text-placeholder"
+                                                />
                                             </div>
-                                            <input
-                                                type="text"
-                                                inputMode="numeric"
-                                                pattern="[0-9,]*"
-                                                placeholder="100,000"
-                                                value={turnover2019}
-                                                onChange={(e) => setTurnover2019(e.target.value)}
-                                                className="flex-1 bg-transparent text-md text-primary pl-0.5 pr-3.5 outline-none placeholder:text-placeholder"
-                                            />
+                                            <p className="text-tertiary text-sm">Feel free to round to the nearest £1000</p>
                                         </div>
-                                        <p className="text-tertiary text-sm">Feel free to round to the nearest £1000</p>
+                                        <div className="flex flex-col gap-1.5 flex-1">
+                                            <label className="text-secondary font-medium text-sm">How much new debt did your business take in the last 12 months?</label>
+                                            <div className="flex w-full h-11 rounded-lg bg-primary shadow-xs ring-1 ring-inset ring-primary focus-within:ring-2 focus-within:ring-brand overflow-hidden">
+                                                <div className="flex items-center pl-3.5 shrink-0">
+                                                    <span className="text-placeholder text-md">£</span>
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    inputMode="numeric"
+                                                    pattern="[0-9,]*"
+                                                    placeholder="0"
+                                                    value={newDebt}
+                                                    onChange={(e) => setNewDebt(e.target.value)}
+                                                    className="flex-1 bg-transparent text-md text-primary pl-0.5 pr-3.5 outline-none placeholder:text-placeholder"
+                                                />
+                                            </div>
+                                            <p className="text-tertiary text-sm">If none, please write 0</p>
+                                        </div>
+                                    </div>
+                                    {/* Row 3: Profit/loss */}
+                                    <div className="flex flex-col md:flex-row gap-3">
+                                        <div className="flex flex-col gap-1.5 flex-1">
+                                            <label className="text-secondary font-medium text-sm">How much profit/loss did you make the last 12 months?</label>
+                                            <div className="flex w-full h-11 rounded-lg bg-primary shadow-xs ring-1 ring-inset ring-primary focus-within:ring-2 focus-within:ring-brand overflow-hidden">
+                                                <div className="flex items-center pl-3.5 shrink-0">
+                                                    <span className="text-placeholder text-md">£</span>
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    inputMode="text"
+                                                    placeholder="0"
+                                                    value={profitLoss}
+                                                    onChange={(e) => setProfitLoss(e.target.value)}
+                                                    className="flex-1 bg-transparent text-md text-primary pl-0.5 pr-3.5 outline-none placeholder:text-placeholder"
+                                                />
+                                            </div>
+                                            <p className="text-tertiary text-sm">For loss, please write a negative number</p>
+                                        </div>
+                                        <div className="flex-1 hidden md:block" />
                                     </div>
                                 </div>
                             </div>
@@ -2183,6 +2257,22 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
                                             <div>
                                                 <p className="text-sm text-tertiary">Turnover in 2019</p>
                                                 <p className="text-sm font-bold text-secondary">{turnover2019 ? `£${turnover2019}` : "—"}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm text-tertiary">New debt in last 12 months</p>
+                                                <p className="text-sm font-bold text-secondary">{newDebt ? `£${newDebt}` : "—"}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm text-tertiary">Profit/loss last 12 months</p>
+                                                <p className="text-sm font-bold text-secondary">{profitLoss ? `£${profitLoss}` : "—"}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm text-tertiary">Preferred loan term</p>
+                                                <p className="text-sm font-bold text-secondary">{loanTerm ? `${loanTerm} months` : "—"}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm text-tertiary">Reason for loan</p>
+                                                <p className="text-sm font-bold text-secondary">{loanReason ? loanReason.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()) : "—"}</p>
                                             </div>
                                         </div>
                                     </div>
