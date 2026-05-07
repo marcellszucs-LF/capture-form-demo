@@ -667,10 +667,9 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
     const [legalSettleDebt, setLegalSettleDebt] = useState<boolean | null>(null);
     const [legalOutsideUK, setLegalOutsideUK] = useState<boolean | null>(null);
     const [legalChangeTradingActivity, setLegalChangeTradingActivity] = useState<boolean | null>(null);
-    const [agreedToShare, setAgreedToShare] = useState(false);
     const isDashboardStep2Valid =
         legalBuyLand !== null && legalOtherCompany !== null && legalSettleDebt !== null &&
-        legalOutsideUK !== null && legalChangeTradingActivity !== null && agreedToShare;
+        legalOutsideUK !== null && legalChangeTradingActivity !== null;
 
     // Step 3 state - per-director info for non-applicant directors
     interface DirectorInfo {
@@ -1686,19 +1685,13 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
                                             </TooltipTrigger>
                                         </Tooltip>
                                     </div>
-                                    {/* Card body - Disclosure text and checkbox */}
-                                    <div className="p-4 flex flex-col gap-4">
+                                    {/* Card body - Disclosure text */}
+                                    <div className="p-4">
                                         <div className="pl-3 py-2 border-l-2 border-brand-solid">
                                             <p className="text-sm text-secondary leading-relaxed">
-                                                We plan to show you credit offers from carefully selected providers. These providers will share your information with credit reference agencies to run soft credit and identity checks, but don't worry this will not affect your credit score. They will also share it with fraud prevention agencies - please be aware, if they do spot fraud, you or others could be refused services, finance or employment. The director who is designated or otherwise identified as the applicant ("The applicant") in connection with this application shall, by virtue of such designation and the submission of this application, concurrently and automatically assume all duties, responsibilities, and liabilities of a guarantor. By ticking the box below, you agree to our <a href="#" className="text-brand-secondary underline">Terms of Business</a> and <a href="#" className="text-brand-secondary underline">Privacy Policy</a>.
+                                                We plan to show you credit offers from carefully selected lending partners. These partners may share your information with credit reference and fraud prevention agencies to run soft checks — this won't affect your credit score. The director identified as the applicant on this form automatically assumes the duties and responsibilities of a guarantor upon submission.
                                             </p>
                                         </div>
-                                        <Checkbox
-                                            size="md"
-                                            isSelected={agreedToShare}
-                                            onChange={setAgreedToShare}
-                                            label="I agree to share my data with external lenders"
-                                        />
                                     </div>
                                 </div>
 
@@ -2279,12 +2272,6 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
                                             </div>
                                         </div>
                                         <div className="mx-4 border-t border-tertiary" />
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-4 px-4 py-4 md:px-5">
-                                            <div>
-                                                <p className="text-sm text-tertiary">I agree to share my data with external lenders</p>
-                                                <p className="text-sm font-bold text-secondary">{agreedToShare ? "Yes" : "No"}</p>
-                                            </div>
-                                        </div>
                                     </div>
                                 </button>
 
@@ -2418,6 +2405,7 @@ const DashboardStep1 = ({ externalDashStep, firstName, lastName, email, onStepCh
                     </div>{/* end card height animation */}
                 </div>
             </div>
+            <p className="text-xs text-tertiary text-center py-6 px-4">We may share the information you provide with our lending partners in line with our <a href="https://www.lovey.com/privacy-policy" target="_blank" rel="noopener noreferrer" className="underline">Privacy Policy</a>.</p>
 
             {/* Video Modal */}
             {showVideoModal && (
@@ -3389,8 +3377,8 @@ export const LoanApplication = () => {
                                                     Get Started
                                                 </Button>
                                                 <p className="text-xs text-tertiary text-center -mt-4">
-                                                    <span className="hidden md:inline">By clicking Get Started, you agree to Lovey's <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-secondary">Terms &amp; Conditions</a> and <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-secondary">Privacy Policy</a>. Your data will be used to provide you with a personalised loan quote.</span>
-                                                    <span className="md:hidden">By tapping Get Started, you agree to Lovey's <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-secondary">Terms &amp; Conditions</a> and <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-secondary">Privacy Policy</a>. Your data will be used to provide you with a personalised loan quote.</span>
+                                                    <span className="hidden md:inline">By clicking Get Started, you agree to Lovey's <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-secondary">Terms of Business</a>. We'll handle your personal data in line with our <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-secondary">Privacy Policy</a>.</span>
+                                                    <span className="md:hidden">By tapping Get Started, you agree to Lovey's <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-secondary">Terms of Business</a>. We'll handle your personal data in line with our <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-secondary">Privacy Policy</a>.</span>
                                                 </p>
                                                 <BadgeWithIcon type="pill-color" color="brand" iconLeading={InfoCircle} className="md:hidden">
                                                     Getting a quote will not affect your credit score
