@@ -8,12 +8,8 @@ import {
     ArrowLeft,
     ArrowRight,
     ArrowUp,
-    ArrowUpRight,
     Flag01,
-    Folder,
-    Share05,
     BankNote01,
-    CalendarCheck01,
     CheckDone01,
     ChevronDown,
     Clipboard,
@@ -23,7 +19,6 @@ import {
     FilePlus01,
     Home05,
     Mail01,
-    Phone01,
     PieChart02,
     RefreshCcw01,
     Rows03,
@@ -57,13 +52,11 @@ import {
     UserEdit,
     XCircle,
     LogOut01,
-    MarkerPin01,
     InfoCircle,
     EyeOff,
     Eye,
 } from "@untitledui/icons";
 import { CalendarDate } from "@internationalized/date";
-import type { NavItemType } from "@/components/application/app-navigation/config";
 import { Avatar } from "@/components/base/avatar/avatar";
 import { Badge, BadgeWithDot } from "@/components/base/badges/badges";
 import { Button } from "@/components/base/buttons/button";
@@ -1565,7 +1558,7 @@ const TableView = ({ leads, isRefreshing }: { leads: Array<Lead & { stage: LeadS
 
 // ─── Activity mock data ───────────────────────────────────────────────────────
 
-interface ActivityEntry {
+interface ActivityLogEntry {
     id: string;
     type: "event" | "comment";
     text: string;
@@ -1575,7 +1568,7 @@ interface ActivityEntry {
     time: string;
 }
 
-const MOCK_ACTIVITY: ActivityEntry[] = [
+const MOCK_ACTIVITY: ActivityLogEntry[] = [
     { id: "a1", type: "event",   text: "Application submitted",       author: "System",      source: "Website form", date: "20 March", time: "11:23" },
     { id: "a2", type: "event",   text: "Assigned to Jake Torres",     author: "Sarah Chen",                          date: "20 March", time: "11:59" },
     { id: "a3", type: "comment", text: "Requested latest bank statements. Applicant confirmed they will send over by end of day.", author: "Jake Torres", date: "20 March", time: "12:03" },
@@ -1639,7 +1632,7 @@ const LeadDetailHeader = ({ lead, onBack }: { lead: Lead & { stage: LeadStage };
 
 // ─── Activity Log ─────────────────────────────────────────────────────────────
 
-const ActivityLog = ({ entries: initialEntries }: { entries: ActivityEntry[] }) => {
+const ActivityLog = ({ entries: initialEntries }: { entries: ActivityLogEntry[] }) => {
     const [entries, setEntries] = useState(initialEntries);
     const [note, setNote] = useState("");
     const timelineRef = useRef<HTMLDivElement>(null);
@@ -1647,7 +1640,7 @@ const ActivityLog = ({ entries: initialEntries }: { entries: ActivityEntry[] }) 
     const handleAddNote = () => {
         if (!note.trim()) return;
         const now = new Date();
-        const newEntry: ActivityEntry = {
+        const newEntry: ActivityLogEntry = {
             id: `note-${Date.now()}`,
             type: "comment",
             text: note.trim(),
@@ -2592,24 +2585,6 @@ const LeadDetailView = ({ lead, onDecision }: { lead: Lead & { stage: LeadStage 
     );
 };
 
-// ─── Placeholder ──────────────────────────────────────────────────────────────
-
-const PAGE_LABELS: Record<string, string> = {
-    "/portal/approved": "Approved",
-    "/portal/reports": "Reports",
-    "/portal/settings": "Settings",
-    "/portal/support": "Support",
-};
-
-const PlaceholderPage = ({ path }: { path: string }) => (
-    <div className="flex flex-1 items-center justify-center">
-        <div className="text-center">
-            <p className="font-display text-display-xs font-semibold text-primary">{PAGE_LABELS[path] ?? "Page"}</p>
-            <p className="mt-1 text-sm text-tertiary">This section is coming soon.</p>
-        </div>
-    </div>
-);
-
 // ─── Leads Page ──────────────────────────────────────────────────────────────
 
 type LeadStrength = "Strong" | "Weak";
@@ -3070,7 +3045,7 @@ const TaskCardView = ({
     onComplete: () => void;
     onEdit: () => void;
     onReschedule: () => void;
-    rescheduleRef?: React.RefObject<HTMLDivElement>;
+    rescheduleRef?: React.RefObject<HTMLDivElement | null>;
 }) => {
     const assigneeLabel = task.assignee === "me"
         ? "Me"
@@ -3118,7 +3093,7 @@ const TaskCardView = ({
 const AnimatedTaskCard = ({
     task,
     onComplete,
-    onRemove,
+    onRemove: _onRemove,
     onUpdate,
 }: {
     task: OverlayTask;
@@ -4639,20 +4614,6 @@ const LeadOverlay = ({
             <Button color="secondary" size="md" iconLeading={XClose} onClick={onClose} className="fixed top-4 right-4 z-[60] rounded-full shadow-lg" />
         </div>
     );
-};
-
-// ─── Tasks Page ───────────────────────────────────────────────────────────────
-
-const parseDueSortKey = (due: string | null, completed: boolean): number => {
-    if (completed) return 99999;
-    if (!due) return 9999;
-    if (due === "Today") return 0;
-    if (due === "Tomorrow") return 1;
-    if (due === "3 days") return 3;
-    const d = new Date(due);
-    if (isNaN(d.getTime())) return 8000;
-    const today = new Date(); today.setHours(0, 0, 0, 0);
-    return Math.round((d.getTime() - today.getTime()) / 86400000);
 };
 
 // Reads initial tasks from context then delegates to LeadOverlay
