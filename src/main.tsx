@@ -5,7 +5,7 @@ import { PasswordGate } from "@/components/password-gate";
 import { HomeScreen } from "@/pages/home-screen";
 import { LoanApplication } from "@/pages/loan-application";
 import { NotFound } from "@/pages/not-found";
-import { UWPortal } from "@/pages/uw-portal";
+import { LoveyPortal } from "@/pages/portal";
 import { RouteProvider } from "@/providers/router-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import "@/styles/globals.css";
@@ -19,7 +19,7 @@ createRoot(document.getElementById("root")!).render(
                         <Routes>
                             <Route path="/" element={<HomeScreen />} />
                             <Route path="/form" element={<LoanApplication />} />
-                            <Route path="/uw-portal/*" element={<UWPortal />} />
+                            <Route path="/portal/*" element={<LoveyPortal />} />
                             <Route path="*" element={<NotFound />} />
                         </Routes>
                     </RouteProvider>

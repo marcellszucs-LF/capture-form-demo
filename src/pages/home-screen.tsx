@@ -33,9 +33,9 @@ export const HomeScreen = () => {
                             size="lg"
                             iconTrailing={ArrowRight}
                             className="w-full"
-                            onClick={() => navigate("/uw-portal")}
+                            onClick={() => navigate("/portal")}
                         >
-                            Underwriter Dashboard
+                            Lovey Portal
                         </Button>
                     </div>
                 </div>
